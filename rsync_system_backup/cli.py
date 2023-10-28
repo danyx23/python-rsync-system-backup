@@ -255,7 +255,7 @@ def main():
             elif option == '--multi-fs':
                 program_opts['multi_fs'] = True
             elif option == '--ignore-acls':
-                program_opts['ignore-acls'] = False
+                program_opts['ignore_acls'] = False
             elif option == '--ignore-users':
                 program_opts['ignore_users'] = True
             elif option == '--disable-notifications':
