@@ -181,10 +181,12 @@ class RsyncSystemBackup(PropertyManager):
     @mutable_property
     def ignore_users(self):
         """:data:`True` to copy without user/group info, :data:`False` otherwise."""
+        return False
 
     @mutable_property
     def ignore_acls(self):
         """:data:`True` to copy without acls, :data:`False` otherwise."""
+        return False
 
     @mutable_property
     def multi_fs(self):
