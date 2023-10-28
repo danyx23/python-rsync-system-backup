@@ -131,6 +131,14 @@ Supported options:
     defaults to running rsync with --one-file-system and must be instructed
     not to using --multi-fs.
 
+  --ignore-acls
+
+    Ignore access control lists (ACLs) when creating backups.
+
+  --ignore-users
+
+    Ignore user and group ownership when creating backups.
+
   -x, --exclude=PATTERN
 
     Selectively exclude certain files from being included in the backup.
@@ -203,7 +211,7 @@ def main():
     try:
         options, arguments = getopt.gnu_getopt(sys.argv[1:], 'bsrm:c:t:i:unx:fvqh', [
             'backup', 'snapshot', 'rotate', 'mount=', 'crypto=', 'tunnel=',
-            'ionice=', 'no-sudo', 'dry-run', 'multi-fs', 'exclude=', 'force',
+            'ionice=', 'no-sudo', 'dry-run', 'multi-fs', 'ignore-acls', 'ignore-users', 'exclude=', 'force',
             'disable-notifications', 'verbose', 'quiet', 'help',
         ])
         for option, value in options:
@@ -246,6 +254,10 @@ def main():
                 program_opts['exclude_list'].append(value)
             elif option == '--multi-fs':
                 program_opts['multi_fs'] = True
+            elif option == '--ignore-acls':
+                program_opts['ignore-acls'] = False
+            elif option == '--ignore-users':
+                program_opts['ignore_users'] = True
             elif option == '--disable-notifications':
                 program_opts['notifications_enabled'] = False
             elif option in ('-v', '--verbose'):

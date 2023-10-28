@@ -179,6 +179,14 @@ class RsyncSystemBackup(PropertyManager):
         return False
 
     @mutable_property
+    def ignore_users(self):
+        """:data:`True` to copy without user/group info, :data:`False` otherwise."""
+
+    @mutable_property
+    def ignore_acls(self):
+        """:data:`True` to copy without acls, :data:`False` otherwise."""
+
+    @mutable_property
     def multi_fs(self):
         """
         :data:`True` to allow rsync to cross filesystem boundaries, :data:`False` otherwise.
@@ -534,8 +542,18 @@ class RsyncSystemBackup(PropertyManager):
             rsync_command.append('--delete-excluded')
             # The following rsync options are intended to preserve
             # as much filesystem metadata as possible.
-            rsync_command.append('--acls')
-            rsync_command.append('--archive')
+            if not self.ignore_acls:
+                rsync_command.append('--acls')
+            if self.ignore_users:
+                # archive is a shorthand. We now do everything it does except for users and groups
+                rsync_command.append('--recursive')
+                rsync_command.append('--links')
+                rsync_command.append('--perms')
+                rsync_command.append('--times')
+                rsync_command.append('--specials')
+                rsync_command.append('--devices')
+            else:
+                rsync_command.append('--archive')
             rsync_command.append('--hard-links')
             rsync_command.append('--numeric-ids')
             rsync_command.append('--xattrs')
